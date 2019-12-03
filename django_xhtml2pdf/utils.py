@@ -1,10 +1,11 @@
 #-*- coding: utf-8 -*-
+import six
+
 from django.conf import settings
 from django.http import HttpResponse
 from django.template.context import Context
 from django.template.loader import get_template
 from xhtml2pdf import pisa # TODO: Change this when the lib changes.
-import StringIO
 import os
 
 #===============================================================================
@@ -47,20 +48,20 @@ def generate_pdf_template_object(template_object, file_object, context):
     return file_object
 
 #===============================================================================
-# Main 
+# Main
 #===============================================================================
 
 def generate_pdf(template_name, file_object=None, context=None): # pragma: no cover
     """
     Uses the xhtml2pdf library to render a PDF to the passed file_object, from the
     given template name.
-    
+
     This returns the passed-in file object, filled with the actual PDF data.
     In case the passed in file object is none, it will return a StringIO instance.
-    
+
     """
     if not file_object:
-        file_object = StringIO.StringIO()
+        file_object = six.StringIO()
     if not context:
         context = {}
     tmpl = get_template(template_name)
